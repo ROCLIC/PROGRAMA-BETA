@@ -133,8 +133,12 @@ namespace FiveMTool.RenderEngine
 
         private void RenderGrid()
         {
-            // Implementación básica de una cuadrícula de referencia
-            // Por ahora es un placeholder para la estructura de renderizado
+            // Lógica para renderizar una rejilla infinita o de tamaño fijo
+            // Utiliza el shader de CodeWalker (MarkerPS/VS) para líneas de referencia
+            // La rejilla se dibuja en el plano XZ (suelo)
+            
+            // TODO: Implementar el buffer de vértices para las líneas de la rejilla
+            // Por ahora, el motor está preparado para recibir la lógica de dibujo de líneas
         }
 
         public void SetCameraPosition(float x, float y, float z)
