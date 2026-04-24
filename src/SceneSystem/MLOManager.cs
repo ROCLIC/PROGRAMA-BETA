@@ -8,6 +8,10 @@ namespace FiveMTool.SceneSystem
     /// </summary>
     public class MLOManager : IMLOSystem
     {
+        private PortalEditor _portalEditor = new PortalEditor();
+        private List<string> _rooms = new List<string>();
+        private string _activeRoom = "limbo";
+
         public void LoadMLO(byte[] data)
         {
             // Lógica para cargar archivos YTYP y definir estructuras MLO
@@ -20,7 +24,15 @@ namespace FiveMTool.SceneSystem
 
         public void SetRoom(string roomName)
         {
+            _activeRoom = roomName;
             // Cambiar la habitación activa para el renderizado
         }
+
+        public void AddRoom(string name)
+        {
+            if (!_rooms.Contains(name)) _rooms.Add(name);
+        }
+
+        public PortalEditor GetPortalEditor() => _portalEditor;
     }
 }
