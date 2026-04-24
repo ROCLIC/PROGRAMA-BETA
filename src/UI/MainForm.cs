@@ -107,36 +107,52 @@ namespace FiveMTool.UI
         private void SetupLayout()
         {
             // Contenedor principal para organizar menús y barras
-            var topContainer = new Panel { Dock = DockStyle.Top, Height = 55 };
+            var topContainer = new Panel { Dock = DockStyle.Top, Height = 55, BackColor = Color.FromArgb(45, 45, 48) };
             topContainer.Controls.Add(_toolBar);
             topContainer.Controls.Add(_mainMenu);
             this.Controls.Add(topContainer);
 
+            // Barra de Estado (Inferior)
+            var statusStrip = new StatusStrip { BackColor = Color.FromArgb(30, 30, 30), ForeColor = Color.Gray };
+            statusStrip.Items.Add(new ToolStripStatusLabel("Listo") { Name = "StatusLabel" });
+            statusStrip.Items.Add(new ToolStripStatusLabel(" | Atajos: G (Mover), R (Rotar), S (Escalar), Tab (Modo Edición)") { Spring = true, TextAlign = ContentAlignment.MiddleRight });
+            this.Controls.Add(statusStrip);
+
             // Panel Inferior (Logs)
-            var bottomPanel = new Panel { Dock = DockStyle.Bottom, Height = 120 };
+            var bottomPanel = new Panel { Dock = DockStyle.Bottom, Height = 120, BackColor = Color.FromArgb(30, 30, 30) };
             bottomPanel.Controls.Add(_logConsole);
-            var logLabel = new Label { Text = "Consola de Salida", Dock = DockStyle.Top, ForeColor = Color.Gray, Height = 20 };
+            var logLabel = new Label { Text = "Consola de Salida", Dock = DockStyle.Top, ForeColor = Color.Gray, Height = 20, Padding = new Padding(5, 0, 0, 0) };
             bottomPanel.Controls.Add(logLabel);
             this.Controls.Add(bottomPanel);
 
-            // Panel Izquierdo (Jerarquía)
-            var leftPanel = new Panel { Dock = DockStyle.Left, Width = 250 };
-            leftPanel.Controls.Add(_hierarchyTree);
-            var hierarchyLabel = new Label { Text = "Jerarquía", Dock = DockStyle.Top, ForeColor = Color.Gray, Height = 25 };
-            leftPanel.Controls.Add(hierarchyLabel);
+            // Panel Izquierdo (Herramientas y Jerarquía)
+            var leftPanel = new Panel { Dock = DockStyle.Left, Width = 250, BackColor = Color.FromArgb(35, 35, 35) };
+            
+            var hierarchyContainer = new Panel { Dock = DockStyle.Fill };
+            hierarchyContainer.Controls.Add(_hierarchyTree);
+            var hierarchyLabel = new Label { Text = "Escena / Jerarquía", Dock = DockStyle.Top, ForeColor = Color.Gray, Height = 25, Padding = new Padding(5, 5, 0, 0) };
+            hierarchyContainer.Controls.Add(hierarchyLabel);
+            
+            var toolsPanel = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 150, BackColor = Color.FromArgb(40, 40, 40), Padding = new Padding(10) };
+            toolsPanel.Controls.Add(new Button { Text = "Añadir Objeto", Width = 220, FlatStyle = FlatStyle.Flat, ForeColor = Color.White, BackColor = Color.FromArgb(60, 60, 60) });
+            toolsPanel.Controls.Add(new Button { Text = "Crear Portal MLO", Width = 220, FlatStyle = FlatStyle.Flat, ForeColor = Color.White, BackColor = Color.FromArgb(60, 60, 60) });
+            toolsPanel.Controls.Add(new Button { Text = "Añadir Habitación", Width = 220, FlatStyle = FlatStyle.Flat, ForeColor = Color.White, BackColor = Color.FromArgb(60, 60, 60) });
+            
+            leftPanel.Controls.Add(hierarchyContainer);
+            leftPanel.Controls.Add(toolsPanel);
+            this.Controls.Add(leftPanel);
 
             // Panel Derecho (Inspector)
-            var rightPanel = new Panel { Dock = DockStyle.Right, Width = 300 };
+            var rightPanel = new Panel { Dock = DockStyle.Right, Width = 300, BackColor = Color.FromArgb(35, 35, 35) };
             rightPanel.Controls.Add(_propertyInspector);
-            var inspectorLabel = new Label { Text = "Propiedades", Dock = DockStyle.Top, ForeColor = Color.Gray, Height = 25 };
+            var inspectorLabel = new Label { Text = "Propiedades / Inspector", Dock = DockStyle.Top, ForeColor = Color.Gray, Height = 25, Padding = new Padding(5, 5, 0, 0) };
             rightPanel.Controls.Add(inspectorLabel);
+            this.Controls.Add(rightPanel);
 
             // Centro (Visor)
             this.Controls.Add(_viewportPanel);
-            this.Controls.Add(leftPanel);
-            this.Controls.Add(rightPanel);
             
-            Log("Aplicación iniciada correctamente.");
+            Log("Interfaz de usuario refinada con paneles contextuales.");
         }
 
         private void RefreshHierarchy()
