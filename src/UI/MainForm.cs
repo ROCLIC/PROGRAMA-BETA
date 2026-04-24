@@ -11,14 +11,43 @@ namespace FiveMTool.UI
         private PropertyGrid _propertyInspector;
         private Panel _viewportPanel;
         private ISceneSystem _sceneSystem;
+        private RenderEngine.IRenderEngine _renderEngine;
+        private RenderEngine.Camera _camera;
+        private Timer _renderTimer;
+        private DateTime _lastFrameTime;
 
-        public MainForm(ISceneSystem sceneSystem)
+        public MainForm(ISceneSystem sceneSystem, RenderEngine.IRenderEngine renderEngine, RenderEngine.Camera camera)
         {
             _sceneSystem = sceneSystem;
+            _renderEngine = renderEngine;
+            _camera = camera;
+
             InitializeComponents();
             SetupLayout();
             
             _sceneSystem.OnSceneChanged += RefreshHierarchy;
+
+            this.Load += MainForm_Load;
+            this.FormClosing += (s, e) => (_renderEngine as IDisposable)?.Dispose();
+        }
+
+        private void MainForm_Load(object? sender, EventArgs e)
+        {
+            _renderEngine.Initialize(_viewportPanel.Handle, _viewportPanel.Width, _viewportPanel.Height);
+            
+            _renderTimer = new Timer { Interval = 16 }; // ~60 FPS
+            _renderTimer.Tick += (s, ev) => {
+                var now = DateTime.Now;
+                float deltaTime = (float)(now - _lastFrameTime).TotalSeconds;
+                _lastFrameTime = now;
+
+                _renderEngine.Update(deltaTime);
+                _renderEngine.Render();
+            };
+            _lastFrameTime = DateTime.Now;
+            _renderTimer.Start();
+
+            _viewportPanel.Resize += (s, ev) => _renderEngine.Resize(_viewportPanel.Width, _viewportPanel.Height);
         }
 
         private void InitializeComponents()

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using FiveMTool.SceneSystem;
 using FiveMTool.UI;
 using FiveMTool.DataCore;
+using FiveMTool.RenderEngine;
 
 namespace FiveMTool
 {
@@ -17,9 +18,11 @@ namespace FiveMTool
             // Inicialización de módulos
             var sceneManager = new SceneManager();
             var dataCore = new GameDataCore();
+            var camera = new Camera();
+            var renderEngine = new DX11RenderEngine(camera);
 
             // Crear el formulario principal
-            var mainForm = new MainForm(sceneManager);
+            var mainForm = new MainForm(sceneManager, renderEngine, camera);
 
             // Ejemplo de carga inicial
             sceneManager.AddObject(new SceneObject { Name = "Modelo de Prueba (YDR)", Position = new System.Numerics.Vector3(0, 0, 0) });
