@@ -183,11 +183,23 @@ namespace FiveMTool.UI
                 {
                     try
                     {
-                        // Acceder al DataCore inyectado en SceneManager
-                        // Nota: En una refactorización mayor, DataCore debería ser accesible globalmente o vía evento
                         Log($"Inicializando CodeWalker en: {fbd.SelectedPath}");
-                        // Aquí llamaríamos a la inicialización real del DataCore
-                        Log("RPF Indexado completado con éxito.");
+                        
+                        // Acceder al DataCore a través de la propiedad pública en SceneManager
+                        if (_sceneSystem is SceneManager manager)
+                        {
+                            var dataCore = manager.DataCore;
+                            dataCore.Initialize(fbd.SelectedPath);
+                            Log("RPF Indexado completado con éxito.");
+                            
+                            // Cargar un YMAP de ejemplo para visualizar algo (ej: el centro de la ciudad)
+                            Log("Cargando mapa base (hei_kt1_02_strm_0.ymap)...");
+                            // Nota: Aquí se añadiría la lógica para poblar la escena con entidades del YMAP
+                        }
+                        else
+                        {
+                            Log("Error: No se pudo acceder al núcleo de datos.");
+                        }
                     }
                     catch (Exception ex)
                     {

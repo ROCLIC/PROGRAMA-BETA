@@ -9,6 +9,7 @@ namespace FiveMTool.SceneSystem
     {
         public SceneObject Root { get; private set; }
         private Dictionary<Guid, SceneObject> _objectRegistry;
+        public DataCore.IGameDataCore DataCore => _dataCore;
         private DataCore.IGameDataCore _dataCore;
 
         public event Action? OnSceneChanged;

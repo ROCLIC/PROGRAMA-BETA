@@ -14,11 +14,11 @@ namespace FiveMTool.DataCore
         public string GamePath { get; private set; }
         public bool IsInitialized { get; private set; }
 
-        private RpfManager _rpfManager;
+        private CodeWalker.GameFiles.RpfManager _rpfManager;
 
         public GameDataCore()
         {
-            _rpfManager = new RpfManager();
+            _rpfManager = new CodeWalker.GameFiles.RpfManager();
             IsInitialized = false;
         }
 
