@@ -10,6 +10,10 @@ namespace FiveMTool.UI
         private TreeView _hierarchyTree;
         private PropertyGrid _propertyInspector;
         private Panel _viewportPanel;
+        private ListBox _logConsole;
+        private MenuStrip _mainMenu;
+        private ToolStrip _toolBar;
+        
         private ISceneSystem _sceneSystem;
         private RenderEngine.IRenderEngine _renderEngine;
         private RenderEngine.Camera _camera;
@@ -29,6 +33,12 @@ namespace FiveMTool.UI
 
             this.Load += MainForm_Load;
             this.FormClosing += (s, e) => (_renderEngine as IDisposable)?.Dispose();
+        }
+
+        private void Log(string message)
+        {
+            _logConsole.Items.Add($"[{DateTime.Now:HH:mm:ss}] {message}");
+            _logConsole.SelectedIndex = _logConsole.Items.Count - 1;
         }
 
         private void MainForm_Load(object? sender, EventArgs e)
@@ -56,9 +66,29 @@ namespace FiveMTool.UI
             this.Size = new Size(1280, 720);
             this.BackColor = Color.FromArgb(45, 45, 48); // Estilo oscuro tipo Blender
 
-            _hierarchyTree = new TreeView { Dock = DockStyle.Fill, BackColor = Color.FromArgb(30, 30, 30), ForeColor = Color.White };
-            _propertyInspector = new PropertyGrid { Dock = DockStyle.Fill, BackColor = Color.FromArgb(30, 30, 30), ForeColor = Color.White };
+            // Menú Superior
+            _mainMenu = new MenuStrip { BackColor = Color.FromArgb(45, 45, 48), ForeColor = Color.White };
+            var fileMenu = new ToolStripMenuItem("Archivo");
+            fileMenu.DropDownItems.Add("Nuevo", null, (s, e) => Log("Nuevo proyecto creado"));
+            fileMenu.DropDownItems.Add("Abrir carpeta GTA V", null, (s, e) => Log("Seleccionando carpeta GTA V..."));
+            fileMenu.DropDownItems.Add("Guardar", null, (s, e) => Log("Proyecto guardado"));
+            _mainMenu.Items.Add(fileMenu);
+            _mainMenu.Items.Add(new ToolStripMenuItem("Editar"));
+            _mainMenu.Items.Add(new ToolStripMenuItem("Vista"));
+            _mainMenu.Items.Add(new ToolStripMenuItem("Herramientas"));
+            _mainMenu.Items.Add(new ToolStripMenuItem("Ayuda"));
+
+            // Barra de Herramientas
+            _toolBar = new ToolStrip { BackColor = Color.FromArgb(45, 45, 48), ForeColor = Color.White, GutterStyle = ToolStripGutterStyle.None };
+            _toolBar.Items.Add(new ToolStripButton("Objeto") { Checked = true });
+            _toolBar.Items.Add(new ToolStripButton("Vértice"));
+            _toolBar.Items.Add(new ToolStripButton("Arista"));
+            _toolBar.Items.Add(new ToolStripButton("Cara"));
+
+            _hierarchyTree = new TreeView { Dock = DockStyle.Fill, BackColor = Color.FromArgb(30, 30, 30), ForeColor = Color.White, BorderStyle = BorderStyle.None };
+            _propertyInspector = new PropertyGrid { Dock = DockStyle.Fill, BackColor = Color.FromArgb(30, 30, 30), ForeColor = Color.White, HelpVisible = false, ToolbarVisible = false };
             _viewportPanel = new Panel { Dock = DockStyle.Fill, BackColor = Color.Black };
+            _logConsole = new ListBox { Dock = DockStyle.Fill, BackColor = Color.FromArgb(30, 30, 30), ForeColor = Color.Gray, BorderStyle = BorderStyle.None };
             
             _hierarchyTree.AfterSelect += (s, e) => {
                 if (e.Node.Tag is SceneObject obj)
@@ -68,6 +98,19 @@ namespace FiveMTool.UI
 
         private void SetupLayout()
         {
+            // Contenedor principal para organizar menús y barras
+            var topContainer = new Panel { Dock = DockStyle.Top, Height = 55 };
+            topContainer.Controls.Add(_toolBar);
+            topContainer.Controls.Add(_mainMenu);
+            this.Controls.Add(topContainer);
+
+            // Panel Inferior (Logs)
+            var bottomPanel = new Panel { Dock = DockStyle.Bottom, Height = 120 };
+            bottomPanel.Controls.Add(_logConsole);
+            var logLabel = new Label { Text = "Consola de Salida", Dock = DockStyle.Top, ForeColor = Color.Gray, Height = 20 };
+            bottomPanel.Controls.Add(logLabel);
+            this.Controls.Add(bottomPanel);
+
             // Panel Izquierdo (Jerarquía)
             var leftPanel = new Panel { Dock = DockStyle.Left, Width = 250 };
             leftPanel.Controls.Add(_hierarchyTree);
@@ -84,6 +127,8 @@ namespace FiveMTool.UI
             this.Controls.Add(_viewportPanel);
             this.Controls.Add(leftPanel);
             this.Controls.Add(rightPanel);
+            
+            Log("Aplicación iniciada correctamente.");
         }
 
         private void RefreshHierarchy()
