@@ -25,6 +25,7 @@ namespace FiveMTool.RenderEngine
         private Camera _camera;
         private Viewport _viewport;
         private ShaderManager _shaderManager;
+        private GizmoManager _gizmoManager;
         
         private bool _isInitialized = false;
 
@@ -55,6 +56,9 @@ namespace FiveMTool.RenderEngine
             // Inicializar gestor de shaders
             string shaderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Shaders");
             _shaderManager = new ShaderManager(_device, shaderPath);
+
+            // Inicializar gestor de gizmos
+            _gizmoManager = new GizmoManager(_device);
 
             Resize(width, height);
             _isInitialized = true;
@@ -156,6 +160,7 @@ namespace FiveMTool.RenderEngine
         public void Dispose()
         {
             _shaderManager?.Dispose();
+            _gizmoManager?.Dispose();
             _renderTargetView?.Dispose();
             _depthStencilView?.Dispose();
             _depthBuffer?.Dispose();
