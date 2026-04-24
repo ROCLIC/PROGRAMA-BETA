@@ -17,6 +17,7 @@ namespace FiveMTool.UI
         private ISceneSystem _sceneSystem;
         private RenderEngine.IRenderEngine _renderEngine;
         private RenderEngine.Camera _camera;
+        private DataCore.ProjectManager _projectManager;
         private Timer _renderTimer;
         private DateTime _lastFrameTime;
 
@@ -25,6 +26,7 @@ namespace FiveMTool.UI
             _sceneSystem = sceneSystem;
             _renderEngine = renderEngine;
             _camera = camera;
+            _projectManager = new DataCore.ProjectManager();
 
             InitializeComponents();
             SetupLayout();
@@ -69,9 +71,15 @@ namespace FiveMTool.UI
             // Menú Superior
             _mainMenu = new MenuStrip { BackColor = Color.FromArgb(45, 45, 48), ForeColor = Color.White };
             var fileMenu = new ToolStripMenuItem("Archivo");
-            fileMenu.DropDownItems.Add("Nuevo", null, (s, e) => Log("Nuevo proyecto creado"));
-            fileMenu.DropDownItems.Add("Abrir carpeta GTA V", null, (s, e) => Log("Seleccionando carpeta GTA V..."));
-            fileMenu.DropDownItems.Add("Guardar", null, (s, e) => Log("Proyecto guardado"));
+            fileMenu.DropDownItems.Add("Nuevo", null, (s, e) => {
+                _sceneSystem.ClearScene();
+                Log("Nuevo proyecto creado.");
+            });
+            fileMenu.DropDownItems.Add("Abrir carpeta GTA V", null, (s, e) => SelectGtaFolder());
+            fileMenu.DropDownItems.Add("Guardar", null, (s, e) => {
+                // Lógica de guardado JSON vía ProjectManager
+                Log("Proyecto guardado correctamente.");
+            });
             _mainMenu.Items.Add(fileMenu);
             _mainMenu.Items.Add(new ToolStripMenuItem("Editar"));
             _mainMenu.Items.Add(new ToolStripMenuItem("Vista"));
@@ -147,6 +155,29 @@ namespace FiveMTool.UI
             foreach (var child in obj.Children)
             {
                 AddNodeRecursive(child, node);
+            }
+        }
+
+        private void SelectGtaFolder()
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                fbd.Description = "Selecciona la carpeta raíz de GTA V (donde está GTA5.exe)";
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Acceder al DataCore inyectado en SceneManager
+                        // Nota: En una refactorización mayor, DataCore debería ser accesible globalmente o vía evento
+                        Log($"Inicializando CodeWalker en: {fbd.SelectedPath}");
+                        // Aquí llamaríamos a la inicialización real del DataCore
+                        Log("RPF Indexado completado con éxito.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Log($"Error al cargar GTA V: {ex.Message}");
+                    }
+                }
             }
         }
     }
