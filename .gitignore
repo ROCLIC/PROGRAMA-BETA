@@ -1,0 +1,31 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.doccache
+
+# Visual Studio
+.vs/
+[Bb]in/
+[Oo]bj/
+*.suo
+*.user
+*.userosscache
+*.sln.doccache
+*.cache
+*.opendb
+*.db
+*.VC.db
+
+# Rider
+.idea/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

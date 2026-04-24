@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using SharpDX;
+using Color = SharpDX.Color;
 
 namespace CodeWalker.GameFiles
 {

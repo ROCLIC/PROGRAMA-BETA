@@ -8,9 +8,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>FiveMTool</AssemblyName>
     <RootNamespace>FiveMTool</RootNamespace>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
     <DefaultItemExcludes>$(DefaultItemExcludes);bin\**;obj\**</DefaultItemExcludes>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <NoWarn>$(NoWarn);CS0436</NoWarn>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,9 +30,10 @@
     <ProjectReference Include="External\CodeWalker.Core\CodeWalker.Core.csproj" />
   </ItemGroup>
 
-  <Target Name="RemoveDuplicateCodeWalker" BeforeTargets="CoreCompile">
+  <Target Name="RemoveDuplicateCodeWalker" BeforeTargets="BeforeCompile;CoreCompile">
     <ItemGroup>
-      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'CodeWalker.Core'" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="$([System.String]::new('%(FileName)').Contains('CodeWalker.Core'))" />
+      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="$([System.String]::new('%(FileName)').Contains('CodeWalker.Core'))" />
     </ItemGroup>
   </Target>
 

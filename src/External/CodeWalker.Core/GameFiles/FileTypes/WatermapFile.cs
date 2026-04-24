@@ -6,6 +6,7 @@ using EXP = System.ComponentModel.ExpandableObjectConverter;
 using System.IO;
 using System.Xml;
 using SharpDX;
+using Color = SharpDX.Color;
 
 namespace CodeWalker.GameFiles
 {

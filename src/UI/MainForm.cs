@@ -18,7 +18,7 @@ namespace FiveMTool.UI
         private RenderEngine.IRenderEngine _renderEngine;
         private RenderEngine.Camera _camera;
         private DataCore.ProjectManager _projectManager;
-        private Timer _renderTimer;
+        private System.Windows.Forms.Timer _renderTimer;
         private DateTime _lastFrameTime;
 
         public MainForm(ISceneSystem sceneSystem, RenderEngine.IRenderEngine renderEngine, RenderEngine.Camera camera)
@@ -47,7 +47,7 @@ namespace FiveMTool.UI
         {
             _renderEngine.Initialize(_viewportPanel.Handle, _viewportPanel.Width, _viewportPanel.Height);
             
-            _renderTimer = new Timer { Interval = 16 }; // ~60 FPS
+            _renderTimer = new System.Windows.Forms.Timer { Interval = 16 }; // ~60 FPS
             _renderTimer.Tick += (s, ev) => {
                 var now = DateTime.Now;
                 float deltaTime = (float)(now - _lastFrameTime).TotalSeconds;

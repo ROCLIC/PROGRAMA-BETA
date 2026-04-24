@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using CodeWalker.Core.Utils;
 using CodeWalker.World;
+using SharpDX;
+using Color = SharpDX.Color;
 
 namespace CodeWalker.GameFiles
 {

@@ -24,6 +24,7 @@
 
 
 using SharpDX;
+using Color = SharpDX.Color;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
