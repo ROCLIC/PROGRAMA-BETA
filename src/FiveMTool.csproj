@@ -25,4 +25,10 @@
     <ProjectReference Include="External\CodeWalker.Core\CodeWalker.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Shaders\*.cso">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

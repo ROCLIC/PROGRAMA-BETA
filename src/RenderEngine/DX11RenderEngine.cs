@@ -24,6 +24,7 @@ namespace FiveMTool.RenderEngine
         
         private Camera _camera;
         private Viewport _viewport;
+        private ShaderManager _shaderManager;
         
         private bool _isInitialized = false;
 
@@ -50,6 +51,10 @@ namespace FiveMTool.RenderEngine
 
             Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.None, desc, out _device, out _swapChain);
             _context = _device.ImmediateContext;
+
+            // Inicializar gestor de shaders
+            string shaderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Shaders");
+            _shaderManager = new ShaderManager(_device, shaderPath);
 
             Resize(width, height);
             _isInitialized = true;
@@ -150,6 +155,7 @@ namespace FiveMTool.RenderEngine
 
         public void Dispose()
         {
+            _shaderManager?.Dispose();
             _renderTargetView?.Dispose();
             _depthStencilView?.Dispose();
             _depthBuffer?.Dispose();
