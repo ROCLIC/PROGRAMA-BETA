@@ -94,7 +94,7 @@ namespace CodeWalker.World
             var v3 = new EditorVertex();
             var v4 = new EditorVertex();
 
-            uint cblu = (uint)new Color(0, 0, 128, 60).ToRgba();
+            uint cblu = (uint)new SharpDX.Color(0, 0, 128, 60).ToRgba();
 
 
             float getHeight(int o)

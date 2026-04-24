@@ -116,7 +116,7 @@ namespace CodeWalker.World
                 byte cg = (byte)((hash >> 16) & 0xFF);
                 byte cb = (byte)((hash >> 24) & 0xFF);
                 byte ca = 60;
-                uint cv = (uint)new Color(cr, cg, cb, ca).ToRgba();
+                uint cv = (uint)new SharpDX.Color(cr, cg, cb, ca).ToRgba();
                 v1.Colour = cv;
                 v2.Colour = cv;
                 v3.Colour = cv;

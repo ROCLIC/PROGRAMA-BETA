@@ -52,9 +52,9 @@ namespace FiveMTool.DataCore
             if (!IsInitialized) throw new InvalidOperationException("El núcleo no ha sido inicializado.");
 
             // Buscar la entrada en el diccionario de CodeWalker
-            if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry))
+            if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry) && entry is RpfFileEntry fileEntry)
             {
-                return _rpfManager.GetFileData(entry);
+                return _rpfManager.GetFileData(fileEntry.Path);
             }
 
             return null;
@@ -82,7 +82,7 @@ namespace FiveMTool.DataCore
             if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry) && entry is RpfFileEntry fileEntry)
             {
                 var ydr = new YdrFile();
-                byte[] data = _rpfManager.GetFileData(fileEntry);
+                byte[] data = _rpfManager.GetFileData(fileEntry.Path);
                 ydr.Load(data, fileEntry);
                 return ydr;
             }
@@ -97,7 +97,7 @@ namespace FiveMTool.DataCore
             if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry) && entry is RpfFileEntry fileEntry)
             {
                 var ymap = new YmapFile();
-                byte[] data = _rpfManager.GetFileData(fileEntry);
+                byte[] data = _rpfManager.GetFileData(fileEntry.Path);
                 ymap.Load(data, fileEntry);
                 return ymap;
             }
@@ -112,7 +112,7 @@ namespace FiveMTool.DataCore
             if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry) && entry is RpfFileEntry fileEntry)
             {
                 var ytyp = new YtypFile();
-                byte[] data = _rpfManager.GetFileData(fileEntry);
+                byte[] data = _rpfManager.GetFileData(fileEntry.Path);
                 ytyp.Load(data, fileEntry);
                 return ytyp;
             }

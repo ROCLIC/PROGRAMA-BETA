@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace FiveMTool.SceneSystem
 {
@@ -34,5 +35,47 @@ namespace FiveMTool.SceneSystem
         }
 
         public PortalEditor GetPortalEditor() => _portalEditor;
+
+        // Implementación de IMLOSystem
+
+        public MLORoom CreateRoom(string name)
+        {
+            return new MLORoom { Name = name };
+        }
+
+        public void DeleteRoom(int roomId)
+        {
+            // Implementación de IMLOSystem
+        }
+
+        public void AddEntityToRoom(int roomId, Guid entityId)
+        {
+            // Implementación de IMLOSystem
+        }
+
+        public MLOPortal CreatePortal(int fromRoom, int toRoom, List<Vector3> vertices)
+        {
+            return new MLOPortal { FromRoom = fromRoom, ToRoom = toRoom, Vertices = vertices };
+        }
+
+        public void AutoCalculatePortals(int roomId)
+        {
+            // Implementación de IMLOSystem
+        }
+
+        public void LoadFromYTYP(string xmlPath)
+        {
+            // Implementación de IMLOSystem
+        }
+
+        public void ExportToYTYP(string outputPath)
+        {
+            // Implementación de IMLOSystem
+        }
+
+        public void SetRoomOcclusion(int roomId, bool isOccluded)
+        {
+            // Implementación de IMLOSystem
+        }
     }
 }

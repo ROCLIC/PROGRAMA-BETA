@@ -436,10 +436,10 @@ namespace CodeWalker.World
 
             List<EditorVertex> pathverts = new List<EditorVertex>();
 
-            uint cred = (uint)Color.Red.ToRgba();
-            uint cblu = (uint)Color.Blue.ToRgba();
-            uint cgrn = (uint)Color.Green.ToBgra();
-            uint cblk = (uint)Color.Black.ToBgra();
+            uint cred = (uint)SharpDX.Color.Red.ToRgba();
+            uint cblu = (uint)SharpDX.Color.Blue.ToRgba();
+            uint cgrn = (uint)SharpDX.Color.Green.ToBgra();
+            uint cblk = (uint)SharpDX.Color.Black.ToBgra();
 
             if ((Ymt != null) && (Ymt.CScenarioPointRegion != null))
             {
@@ -472,8 +472,8 @@ namespace CodeWalker.World
                                 byte cb2 = (byte)(255 - cr2);
                                 pv1.Position = v1.Position;
                                 pv2.Position = v2.Position;
-                                pv1.Colour = (uint)new Color(cr1, cg, cb1, (byte)255).ToRgba();// (v1._Data.HasIncomingEdges == 1) ? cred : cblu;
-                                pv2.Colour = (uint)new Color(cr2, cg, cb2, (byte)255).ToRgba();// (v2._Data.HasIncomingEdges == 1) ? cred : cblu;
+                                pv1.Colour = (uint)new SharpDX.Color(cr1, cg, cb1, (byte)255).ToRgba();// (v1._Data.HasIncomingEdges == 1) ? cred : cblu;
+                                pv2.Colour = (uint)new SharpDX.Color(cr2, cg, cb2, (byte)255).ToRgba();// (v2._Data.HasIncomingEdges == 1) ? cred : cblu;
                                 pathverts.Add(pv1);
                                 pathverts.Add(pv2);
                             }

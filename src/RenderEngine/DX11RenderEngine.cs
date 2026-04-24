@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using System.Windows.Forms;
+using FiveMTool.SceneSystem;
 using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
@@ -146,8 +147,8 @@ namespace FiveMTool.RenderEngine
             foreach (var obj in objects)
             {
                 // Por ahora usamos una caja delimitadora simple alrededor de la posición del objeto
-                Vector3 min = obj.Position - new Vector3(0.5f);
-                Vector3 max = obj.Position + new Vector3(0.5f);
+                System.Numerics.Vector3 min = obj.Position - new System.Numerics.Vector3(0.5f);
+                System.Numerics.Vector3 max = obj.Position + new System.Numerics.Vector3(0.5f);
 
                 if (RaycastingSystem.IntersectsAABB(ray, min, max, out float distance))
                 {

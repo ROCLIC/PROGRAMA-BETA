@@ -968,7 +968,7 @@ namespace CodeWalker
         }
         private int GetColourInt(Vector4 c)
         {
-            Color v = new Color(c);
+            SharpDX.Color v = new SharpDX.Color(c);
             return v.ToRgba();
         }
 

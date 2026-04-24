@@ -25,5 +25,25 @@ namespace FiveMTool.SceneSystem
         {
             // Dibujar wireframe de colisiones en el RenderEngine
         }
+
+        public void AddCollision(SceneObject obj, CollisionGeometry geometry)
+        {
+            // Implementación de ICollisionSystem
+        }
+
+        public void RemoveCollision(SceneObject obj)
+        {
+            // Implementación de ICollisionSystem
+        }
+
+        public void SetDebugVisibility(bool visible)
+        {
+            // Implementación de ICollisionSystem
+        }
+
+        public void UpdateCollisionGeometry(SceneObject obj, CollisionGeometry newGeometry)
+        {
+            // Implementación de ICollisionSystem
+        }
     }
 }

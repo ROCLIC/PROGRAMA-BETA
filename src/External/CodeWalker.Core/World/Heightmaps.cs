@@ -101,8 +101,8 @@ namespace CodeWalker.World
             var v3 = new EditorVertex();
             var v4 = new EditorVertex();
 
-            uint cgrn = (uint)new Color(0, 128, 0, 60).ToRgba();
-            uint cyel = (uint)new Color(128, 128, 0, 200).ToRgba();
+            uint cgrn = (uint)new SharpDX.Color(0, 128, 0, 60).ToRgba();
+            uint cyel = (uint)new SharpDX.Color(128, 128, 0, 200).ToRgba();
 
             var w = hmf.Width;
             var h = hmf.Height;

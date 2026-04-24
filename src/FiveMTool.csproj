@@ -26,9 +26,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="External\CodeWalker.Core\CodeWalker.Core.csproj" />
-  </ItemGroup>
+
 
   <Target Name="RemoveDuplicateCodeWalker" BeforeTargets="BeforeCompile;CoreCompile">
     <ItemGroup>

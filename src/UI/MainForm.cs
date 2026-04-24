@@ -87,7 +87,7 @@ namespace FiveMTool.UI
             _mainMenu.Items.Add(new ToolStripMenuItem("Ayuda"));
 
             // Barra de Herramientas
-            _toolBar = new ToolStrip { BackColor = Color.FromArgb(45, 45, 48), ForeColor = Color.White, GutterStyle = ToolStripGutterStyle.None };
+            _toolBar = new ToolStrip { BackColor = Color.FromArgb(45, 45, 48), ForeColor = Color.White };
             _toolBar.Items.Add(new ToolStripButton("Objeto") { Checked = true });
             _toolBar.Items.Add(new ToolStripButton("Vértice"));
             _toolBar.Items.Add(new ToolStripButton("Arista"));

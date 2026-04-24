@@ -35,7 +35,7 @@ namespace FiveMTool.RenderEngine
         /// <summary>
         /// Detecta si el ratón está sobre un eje del gizmo.
         /// </summary>
-        public GizmoAxis HitTest(Vector2 mousePos, Matrix4x4 view, Matrix4x4 projection)
+        public GizmoAxis HitTest(System.Numerics.Vector2 mousePos, Matrix4x4 view, Matrix4x4 projection)
         {
             // Implementación de raycasting contra los ejes del gizmo
             return GizmoAxis.None;
@@ -44,7 +44,7 @@ namespace FiveMTool.RenderEngine
         /// <summary>
         /// Aplica la transformación al objeto basada en el movimiento del ratón.
         /// </summary>
-        public Vector3 UpdateTransform(Vector2 deltaMouse, GizmoAxis axis, Matrix4x4 view)
+        public Vector3 UpdateTransform(System.Numerics.Vector2 deltaMouse, GizmoAxis axis, Matrix4x4 view)
         {
             if (axis == GizmoAxis.None) return Vector3.Zero;
             

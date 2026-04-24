@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace FiveMTool.MeshEditor
 {
@@ -25,6 +26,36 @@ namespace FiveMTool.MeshEditor
         public void ApplyTexture(string modelName, string textureName)
         {
             // Lógica para asignar una textura a un material de un modelo
+        }
+
+        public void ApplyMaterial(EditableMesh mesh, GTAMaterial material)
+        {
+            // Implementación de ITextureSystem
+        }
+
+        public void SetUVScale(EditableMesh mesh, Vector2 scale)
+        {
+            // Implementación de ITextureSystem
+        }
+
+        public void SetUVOffset(EditableMesh mesh, Vector2 offset)
+        {
+            // Implementación de ITextureSystem
+        }
+
+        public void RotateUVs(EditableMesh mesh, float angle)
+        {
+            // Implementación de ITextureSystem
+        }
+
+        public void ImportTexture(string path)
+        {
+            // Implementación de ITextureSystem
+        }
+
+        public IEnumerable<string> GetAvailableTextures()
+        {
+            return _textureCache.Keys;
         }
     }
 }
