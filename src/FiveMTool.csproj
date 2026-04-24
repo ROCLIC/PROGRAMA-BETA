@@ -26,6 +26,12 @@
     <ProjectReference Include="External\CodeWalker.Core\CodeWalker.Core.csproj" />
   </ItemGroup>
 
+  <Target Name="RemoveDuplicateCodeWalker" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(FileName)' == 'CodeWalker.Core'" />
+    </ItemGroup>
+  </Target>
+
   <ItemGroup>
     <None Update="Shaders\*.cso">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
