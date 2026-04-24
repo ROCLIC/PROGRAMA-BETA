@@ -2,22 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using CodeWalker.GameFiles;
 
 namespace FiveMTool.DataCore
 {
+    /// <summary>
+    /// Implementación del núcleo de datos que utiliza CodeWalker.Core para gestionar archivos RPF.
+    /// </summary>
     public class GameDataCore : IGameDataCore
     {
         public string GamePath { get; private set; }
         public bool IsInitialized { get; private set; }
 
-        private Dictionary<string, string> _assetIndex; // Nombre -> Ruta RPF o Ruta Física
+        private RpfManager _rpfManager;
 
         public GameDataCore()
         {
-            _assetIndex = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            _rpfManager = new RpfManager();
             IsInitialized = false;
         }
 
+        /// <summary>
+        /// Inicializa el RpfManager de CodeWalker con la ruta de GTA V.
+        /// </summary>
         public void Initialize(string path)
         {
             if (!Directory.Exists(path))
@@ -28,50 +35,58 @@ namespace FiveMTool.DataCore
 
             GamePath = path;
             
-            // Simulación de escaneo inicial para la Fase 1
-            // En una implementación completa, aquí llamaríamos al RpfManager de CodeWalker
-            ScanGameFolder();
+            // Inicializar CodeWalker RpfManager
+            // Esto escaneará todos los RPFs y construirá el índice de archivos
+            _rpfManager.Init(path, false, 
+                status => Console.WriteLine($"Cargando: {status}"), 
+                error => Console.WriteLine($"Error: {error}"));
 
             IsInitialized = true;
         }
 
-        private void ScanGameFolder()
-        {
-            // Escaneo recursivo de archivos RPF para indexación
-            // Nota: En la fase real, usaríamos la lógica de CodeWalker para entrar en los RPF
-            var rpfFiles = Directory.GetFiles(GamePath, "*.rpf", SearchOption.AllDirectories);
-            
-            foreach (var rpf in rpfFiles)
-            {
-                string fileName = Path.GetFileName(rpf);
-                if (!_assetIndex.ContainsKey(fileName))
-                {
-                    _assetIndex.Add(fileName, rpf);
-                }
-            }
-        }
-
+        /// <summary>
+        /// Obtiene los datos binarios de un archivo buscando en todos los RPFs indexados.
+        /// </summary>
         public byte[] GetFileData(string fileName)
         {
             if (!IsInitialized) throw new InvalidOperationException("El núcleo no ha sido inicializado.");
 
-            if (_assetIndex.TryGetValue(fileName, out string path))
+            // Buscar la entrada en el diccionario de CodeWalker
+            if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry))
             {
-                // Si es un archivo físico directo
-                if (File.Exists(path))
-                    return File.ReadAllBytes(path);
-                
-                // Si estuviera dentro de un RPF, aquí usaríamos el extractor de CodeWalker
+                return _rpfManager.GetFileData(entry);
             }
 
             return null;
         }
 
+        /// <summary>
+        /// Obtiene una lista de nombres de archivos que coinciden con la extensión.
+        /// </summary>
         public IEnumerable<string> GetFilesByType(string extension)
         {
             if (!IsInitialized) return Enumerable.Empty<string>();
 
-            return _assetIndex.Keys.Where(k => k.EndsWith(extension, StringComparison.OrdinalIgnoreCase));
+            string ext = extension.StartsWith(".") ? extension.ToLower() : "." + extension.ToLower();
+            
+            return _rpfManager.EntryDict.Keys
+                .Where(k => k.EndsWith(ext))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Carga un archivo YDR (Drawable) usando la lógica de CodeWalker.
+        /// </summary>
+        public YdrFile LoadYdr(string fileName)
+        {
+            if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry) && entry is RpfFileEntry fileEntry)
+            {
+                var ydr = new YdrFile();
+                byte[] data = _rpfManager.GetFileData(fileEntry);
+                ydr.Load(data, fileEntry);
+                return ydr;
+            }
+            return null;
         }
     }
 }
