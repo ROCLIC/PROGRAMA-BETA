@@ -88,5 +88,35 @@ namespace FiveMTool.DataCore
             }
             return null;
         }
+
+        /// <summary>
+        /// Carga un archivo YMAP usando la lógica de CodeWalker.
+        /// </summary>
+        public YmapFile LoadYmap(string fileName)
+        {
+            if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry) && entry is RpfFileEntry fileEntry)
+            {
+                var ymap = new YmapFile();
+                byte[] data = _rpfManager.GetFileData(fileEntry);
+                ymap.Load(data, fileEntry);
+                return ymap;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Carga un archivo YTYP (MLO/Archetypes) usando la lógica de CodeWalker.
+        /// </summary>
+        public YtypFile LoadYtyp(string fileName)
+        {
+            if (_rpfManager.EntryDict.TryGetValue(fileName.ToLower(), out var entry) && entry is RpfFileEntry fileEntry)
+            {
+                var ytyp = new YtypFile();
+                byte[] data = _rpfManager.GetFileData(fileEntry);
+                ytyp.Load(data, fileEntry);
+                return ytyp;
+            }
+            return null;
+        }
     }
 }

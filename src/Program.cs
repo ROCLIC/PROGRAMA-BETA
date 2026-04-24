@@ -16,8 +16,8 @@ namespace FiveMTool
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Inicialización de módulos
-            var sceneManager = new SceneManager();
             var dataCore = new GameDataCore();
+            var sceneManager = new SceneManager(dataCore);
             var camera = new Camera();
             var renderEngine = new DX11RenderEngine(camera);
 

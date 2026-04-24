@@ -9,11 +9,13 @@ namespace FiveMTool.SceneSystem
     {
         public SceneObject Root { get; private set; }
         private Dictionary<Guid, SceneObject> _objectRegistry;
+        private DataCore.IGameDataCore _dataCore;
 
         public event Action? OnSceneChanged;
 
-        public SceneManager()
+        public SceneManager(DataCore.IGameDataCore dataCore)
         {
+            _dataCore = dataCore;
             Root = new SceneObject { Name = "Escena Raíz", Id = Guid.NewGuid() };
             _objectRegistry = new Dictionary<Guid, SceneObject>();
             _objectRegistry.Add(Root.Id, Root);
