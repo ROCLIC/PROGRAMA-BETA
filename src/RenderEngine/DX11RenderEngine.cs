@@ -128,7 +128,38 @@ namespace FiveMTool.RenderEngine
             // Aquí se añadiría el renderizado de la cuadrícula y mallas
             RenderGrid();
 
+            // Renderizar Gizmos si hay un objeto seleccionado
+            // _gizmoManager.Draw(_context, selectedPosition, _camera.ViewMatrix, _camera.ProjectionMatrix);
+
             _swapChain.Present(1, PresentFlags.None);
+        }
+
+        /// <summary>
+        /// Realiza una prueba de selección en la posición del ratón.
+        /// </summary>
+        public SceneObject PickObject(System.Numerics.Vector2 mousePos, System.Numerics.Vector2 viewportSize, IEnumerable<SceneObject> objects)
+        {
+            var ray = RaycastingSystem.GetRayFromMouse(mousePos, viewportSize, _camera.ViewMatrix, _camera.ProjectionMatrix);
+            SceneObject closest = null;
+            float minDistance = float.MaxValue;
+
+            foreach (var obj in objects)
+            {
+                // Por ahora usamos una caja delimitadora simple alrededor de la posición del objeto
+                Vector3 min = obj.Position - new Vector3(0.5f);
+                Vector3 max = obj.Position + new Vector3(0.5f);
+
+                if (RaycastingSystem.IntersectsAABB(ray, min, max, out float distance))
+                {
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        closest = obj;
+                    }
+                }
+            }
+
+            return closest;
         }
 
         private void RenderGrid()
